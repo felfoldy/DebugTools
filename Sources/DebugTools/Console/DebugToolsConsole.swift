@@ -28,7 +28,8 @@ final class DebugToolsConsole: BaseDestination, ObservableObject {
         let message = LogMessage(
             level: level,
             location: "\(path).\(function):\(line)",
-            message: msg
+            message: msg,
+            formatted: formattedString
         )
         
         let entry = LogEntry(content: .message(message))

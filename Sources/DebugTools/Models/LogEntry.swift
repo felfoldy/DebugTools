@@ -23,4 +23,5 @@ struct LogMessage {
     let level: SwiftyBeaver.Level
     let location: String
     let message: String
+    let formatted: String
 }

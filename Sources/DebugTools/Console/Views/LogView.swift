@@ -71,7 +71,8 @@ struct LogView: View {
         LogEntry(content: .message(
             LogMessage(level: level,
                        location: "SomeFile.func():10",
-                       message: String(describing: level))
+                       message: String(describing: level),
+                       formatted: "")
         ))
     }
     

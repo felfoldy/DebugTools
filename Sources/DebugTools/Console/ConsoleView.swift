@@ -10,6 +10,7 @@ import SwiftUI
 public struct ConsoleView: View {
     @ObservedObject private var console = DebugToolsConsole.shared
     @State private var filterText = ""
+    @Environment(\.dismiss) private var dismiss
     
     public init() {}
     
@@ -26,6 +27,14 @@ public struct ConsoleView: View {
             }
             .navigationTitle("Console")
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Close", systemImage: "xmark.circle") {
+                        dismiss()
+                    }
+                }
+            }
+            .shareable(log: filteredLogs)
         }
         .onAppear {
             console.isPresented = true
