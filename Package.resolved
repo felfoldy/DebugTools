@@ -1,0 +1,24 @@
+{
+  "originHash" : "8f211545c344bd9f925c959b3aa0dace564a7bcfc9c59402d5c6bccbb65bbc19",
+  "pins" : [
+    {
+      "identity" : "highlight",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nkristek/Highlight.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "8e0908cb4b88f629fd8041b361f081ec8486c056"
+      }
+    },
+    {
+      "identity" : "swiftybeaver",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftyBeaver/SwiftyBeaver.git",
+      "state" : {
+        "revision" : "1ae1f8fe06ce9e3bd84d1e821dcca5054dc6fb3c",
+        "version" : "2.1.0"
+      }
+    }
+  ],
+  "version" : 3
+}
