@@ -25,6 +25,9 @@ struct AutoScrollView<Content: View>: View {
                     proxy.scrollTo("bottom")
                 }
             }
+            .onAppear {
+                proxy.scrollTo("bottom")
+            }
         }
     }
 }

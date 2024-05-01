@@ -18,6 +18,12 @@ struct ShareableModifier: ViewModifier {
                     Label("Share", systemImage: "square.and.arrow.up")
                 }
             }
+            
+            ToolbarItem(placement: .secondaryAction) {
+                Button("Clear", systemImage: "trash") {
+                    DebugToolsConsole.shared.logs = []
+                }
+            }
         }
     }
     

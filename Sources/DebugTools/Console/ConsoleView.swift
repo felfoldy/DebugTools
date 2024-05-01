@@ -16,15 +16,14 @@ public struct ConsoleView: View {
     
     public var body: some View {
         NavigationView {
-            SearchableView {
-                AutoScrollView {
-                    VStack(spacing: 0) {
-                        ForEach(filteredLogs) { log in
-                            LogView(entry: log)
-                        }
+            AutoScrollView {
+                LazyVStack(spacing: 0) {
+                    ForEach(filteredLogs) { log in
+                        LogView(entry: log)
                     }
                 }
             }
+            .searchable(text: $filterText, prompt: "filter")
             .navigationTitle("Console")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -43,17 +42,7 @@ public struct ConsoleView: View {
             console.isPresented = false
         }
     }
-    
-    @ViewBuilder
-    private func SearchableView<Content: View>(content: () -> Content) -> some View {
-        if #available(iOS 15.0, *) {
-            content()
-                .searchable(text: $filterText, prompt: "filter")
-        } else {
-            content()
-        }
-    }
-    
+
     private var filteredLogs: [LogEntry] {
         if filterText.isEmpty {
             return console.logs
