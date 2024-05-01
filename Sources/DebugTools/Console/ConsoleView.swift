@@ -39,7 +39,11 @@ struct ConsoleView: View {
     }
     
     private var filteredLogs: [LogEntry] {
-        console.logs.filter { entry in
+        if filterText.isEmpty {
+            return console.logs
+        }
+        
+        return console.logs.filter { entry in
             switch entry.content {
             case let .message(content):
                 content.message
