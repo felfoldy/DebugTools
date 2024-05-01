@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "DebugTools",
-    platforms: [.iOS(.v14)],
+    platforms: [.iOS(.v15)],
     products: [
         .library(
             name: "DebugTools",

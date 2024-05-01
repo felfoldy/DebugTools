@@ -19,7 +19,7 @@ final class DebugToolsConsole: BaseDestination, ObservableObject {
               let url = URL(string: file) else {
             return nil
         }
-        
+                
         let path = url
             .deletingPathExtension()
             .lastPathComponent
