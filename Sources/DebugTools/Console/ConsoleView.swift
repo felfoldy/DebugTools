@@ -7,12 +7,13 @@
 
 import SwiftUI
 
-struct ConsoleView: View {
+public struct ConsoleView: View {
     @ObservedObject private var console = DebugToolsConsole.shared
-    
     @State private var filterText = ""
     
-    var body: some View {
+    public init() {}
+    
+    public var body: some View {
         NavigationView {
             SearchableView {
                 AutoScrollView {
