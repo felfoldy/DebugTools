@@ -26,6 +26,12 @@ struct ConsoleView: View {
             .navigationTitle("Console")
             .navigationBarTitleDisplayMode(.inline)
         }
+        .onAppear {
+            console.isPresented = true
+        }
+        .onDisappear {
+            console.isPresented = false
+        }
     }
     
     @ViewBuilder

@@ -11,6 +11,7 @@ import SwiftyBeaver
 final class DebugToolsConsole: BaseDestination, ObservableObject {
     static let shared = DebugToolsConsole()
     
+    var isPresented = false
     @Published private(set) var logs = [LogEntry]()
     
     override func send(_ level: SwiftyBeaver.Level, msg: String, thread: String, file: String, function: String, line: Int, context: Any? = nil) -> String? {
