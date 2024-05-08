@@ -24,6 +24,6 @@ extension LogModel {
     }
 }
 
-extension LogModel: Identifiable {
+extension LogModel: Identifiable, Equatable {
     var id: String { "\(location)\(date.timeIntervalSince1970)" }
 }

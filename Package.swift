@@ -14,12 +14,14 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/nkristek/Highlight.git", branch: "master"),
+        .package(url: "https://github.com/apple/swift-algorithms", from: "1.2.0"),
     ],
     targets: [
         .target(
             name: "DebugTools",
             dependencies: [
                 .byName(name: "Highlight"),
+                .product(name: "Algorithms", package: "swift-algorithms"),
             ]
         ),
         .testTarget(

@@ -7,15 +7,14 @@
 
 import Foundation
 import OSLog
+import Algorithms
 
 public final class OSLogConsole: ObservableObject {
+    var isStreaming = false
     @Published private(set) var logs = [LogModel]()
     
     private var store: OSLogStore
-    
-    var isStreaming = false
-    
-    var subsystems: [String]
+    private var subsystems: [String]
     
     init(subsystems: [String]) throws {
         store = try OSLogStore(scope: .currentProcessIdentifier)
@@ -27,12 +26,17 @@ public final class OSLogConsole: ObservableObject {
         
         let newEntries = try store.getEntries(matching: predicate)
             .compactMap { $0 as? OSLogEntryLog }
-            .filter { $0.level != .undefined }
             .suffix(1000)
             .map(LogModel.init)
         
+        let newResult = (logs + newEntries)
+            .sorted { $0.date < $1.date }
+            .uniqued(on: \.date)
+        
         await MainActor.run {
-            logs = newEntries
+            if logs != newResult {
+                logs = newResult
+            }
         }
     }
 
@@ -41,7 +45,7 @@ public final class OSLogConsole: ObservableObject {
 
         while isStreaming {
             try await fetchLogs()
-            try await Task.sleep(nanoseconds: 10)
+            try await Task.sleep(nanoseconds: 1_000_000_000)
         }
     }
 }

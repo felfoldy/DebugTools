@@ -13,7 +13,11 @@ public struct DebugTools {
     }
     
     private static var defaultSubsystems: [String] {
-        var subsystems = ["Default"]
+        var subsystems = [
+            "Default",
+            "com.apple.coredata",
+            "com.apple.ttsasset"
+        ]
         
         if let identifier = Bundle.main.bundleIdentifier {
             subsystems.append(identifier)
