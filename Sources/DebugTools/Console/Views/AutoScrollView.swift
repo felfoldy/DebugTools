@@ -20,6 +20,7 @@ struct AutoScrollView<Content: View>: View {
                     .id("bottom")
             }
             .onReceive(console.objectWillChange) {
+                withAnimation {
                     proxy.scrollTo("bottom")
                 }
             }
