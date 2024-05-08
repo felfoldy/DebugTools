@@ -21,10 +21,13 @@ public final class OSLogConsole: ObservableObject {
         self.subsystems = subsystems
     }
     
-    func fetchLogs() async throws {
+    func fetchLogs(since date: Date) async throws {
         let predicate = NSPredicate(format: "subsystem IN %@", subsystems)
         
-        let newEntries = try store.getEntries(matching: predicate)
+        let position = store.position(date: date)
+        
+        let newEntries = try store.getEntries(at: position,
+                                              matching: predicate)
             .compactMap { $0 as? OSLogEntryLog }
             .suffix(1000)
             .map(LogModel.init)
@@ -42,10 +45,15 @@ public final class OSLogConsole: ObservableObject {
 
     func stream() async throws {
         isStreaming = true
-
+        
+        var lastFetchDate = Date()
+        
         while isStreaming {
-            try await fetchLogs()
-            try await Task.sleep(nanoseconds: 1_000_000_000)
+            if DebugTools.isConsolePresented {
+                try await fetchLogs(since: lastFetchDate)
+                lastFetchDate = Date()
+            }
+            try await Task.sleep(nanoseconds: 1_000_000)
         }
     }
 }
