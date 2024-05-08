@@ -8,10 +8,9 @@
 import SwiftUI
 
 struct AutoScrollView<Content: View>: View {
+    let console: OSLogConsole
     let content: () -> Content
-    
-    private let console = DebugToolsConsole.shared
-    
+        
     var body: some View {
         ScrollViewReader { proxy in
             ScrollView {
@@ -21,7 +20,6 @@ struct AutoScrollView<Content: View>: View {
                     .id("bottom")
             }
             .onReceive(console.objectWillChange) {
-                withAnimation {
                     proxy.scrollTo("bottom")
                 }
             }

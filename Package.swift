@@ -13,13 +13,14 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(url: "https://github.com/SwiftyBeaver/SwiftyBeaver.git", .upToNextMajor(from: "2.1.0")),
         .package(url: "https://github.com/nkristek/Highlight.git", branch: "master"),
     ],
     targets: [
         .target(
             name: "DebugTools",
-            dependencies: ["SwiftyBeaver", "Highlight"]
+            dependencies: [
+                .byName(name: "Highlight"),
+            ]
         ),
         .testTarget(
             name: "DebugToolsTests",

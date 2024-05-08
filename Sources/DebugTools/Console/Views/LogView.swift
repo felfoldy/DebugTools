@@ -6,10 +6,10 @@
 //
 
 import SwiftUI
-import SwiftyBeaver
+import OSLog
 
 struct LogView: View {
-    let entry: LogEntry
+    let log: LogModel
     
     var body: some View {
         HStack {
@@ -21,26 +21,21 @@ struct LogView: View {
             
             VStack {
                 HStack {
-                    if case let .message(content) = entry.content {
-                        Text(content.location)
-                    }
+                    Text(log.location)
                     
                     Spacer()
                     
                     Text(
-                        entry.date.formatted(date: .omitted,
-                                             time: .standard)
+                        log.date.formatted(date: .omitted,
+                                           time: .standard)
                     )
                 }
                 .font(.caption2)
                 .foregroundColor(.secondary)
-                
-                switch entry.content {
-                case let .message(content):
-                    Text(content.message)
-                        .frame(maxWidth: .infinity,
-                               alignment: .leading)
-                }
+
+                Text(log.composedMessage)
+                    .frame(maxWidth: .infinity,
+                           alignment: .leading)
             }
         }
         .padding(4)
@@ -53,38 +48,39 @@ struct LogView: View {
     }
     
     private var tint: Color {
-        switch entry.content {
-        case let .message(content):
-            switch content.level {
-            case .verbose: .mint
-            case .info: .cyan
-            case .debug: .green
-            case .warning: .yellow
-            case .fault, .critical, .error: .red
-            }
+        switch log.level {
+        case .info: .cyan
+        case .debug: .green
+        case .notice: .yellow
+        case .error: .orange
+        case .fault: .red
+        case .undefined: .clear
+        @unknown default: .clear
         }
     }
 }
 
+private extension LogModel {
+    init(message: String, level: OSLogEntryLog.Level) {
+        composedMessage = message
+        self.level = level
+        date = .now
+        location = "location"
+    }
+}
+
 #Preview {
-    func log(_ level: SwiftyBeaver.Level) -> LogEntry {
-        LogEntry(content: .message(
-            LogMessage(level: level,
-                       location: "SomeFile.func():10",
-                       message: String(describing: level),
-                       formatted: "")
-        ))
+    func log(_ level: OSLogEntryLog.Level) -> LogModel {
+        LogModel(message: String(describing: level), level: level)
     }
     
     return ScrollView {
         VStack(spacing: 0) {
-            LogView(entry: log(.verbose))
-            LogView(entry: log(.info))
-            LogView(entry: log(.debug))
-            LogView(entry: log(.warning))
-            LogView(entry: log(.error))
-            LogView(entry: log(.fault))
-            LogView(entry: log(.critical))
+            LogView(log: log(.debug))
+            LogView(log: log(.info))
+            LogView(log: log(.notice))
+            LogView(log: log(.error))
+            LogView(log: log(.fault))
         }
     }
 }

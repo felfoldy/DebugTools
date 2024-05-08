@@ -10,8 +10,13 @@ import SwiftUI
 
 extension UIWindow {
     open override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
-        guard motion == .motionShake, !DebugToolsConsole.shared.isPresented else { return }
-        let vc = UIHostingController(rootView: ConsoleView())
+        guard motion == .motionShake,
+              let console = DebugTools.sharedConsole,
+              !DebugTools.isConsolePresented else {
+            return
+        }
+        
+        let vc = UIHostingController(rootView: ConsoleView(console: console))
         rootViewController?.topMostViewController
             .present(vc, animated: true)
     }

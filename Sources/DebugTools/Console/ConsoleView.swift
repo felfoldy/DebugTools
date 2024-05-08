@@ -8,18 +8,20 @@
 import SwiftUI
 
 public struct ConsoleView: View {
-    @ObservedObject private var console = DebugToolsConsole.shared
+    @ObservedObject private var console: OSLogConsole
     @State private var filterText = ""
     @Environment(\.dismiss) private var dismiss
     
-    public init() {}
+    public init(console: OSLogConsole) {
+        self.console = console
+    }
     
     public var body: some View {
         NavigationView {
-            AutoScrollView {
+            AutoScrollView(console: console) {
                 LazyVStack(spacing: 0) {
-                    ForEach(filteredLogs) { log in
-                        LogView(entry: log)
+                    ForEach(console.logs) { log in
+                        LogView(log: log)
                     }
                 }
             }
@@ -36,37 +38,45 @@ public struct ConsoleView: View {
             .shareable(log: filteredLogs)
         }
         .onAppear {
-            console.isPresented = true
+            DebugTools.isConsolePresented = true
         }
         .onDisappear {
-            console.isPresented = false
+            DebugTools.isConsolePresented = false
         }
     }
 
-    private var filteredLogs: [LogEntry] {
+    private var filteredLogs: [LogModel] {
         if filterText.isEmpty {
             return console.logs
         }
         
-        return console.logs.filter { entry in
-            switch entry.content {
-            case let .message(content):
-                content.message
-                    .lowercased()
-                    .contains(filterText.lowercased())
-            }
+        return console.logs.filter { log in
+            log.composedMessage.contains(filterText)
         }
     }
 }
 
+import OSLog
+
 #Preview {
     VStack {
-        ConsoleView()
+        ConsoleView(console: {
+            let id = Bundle.main.bundleIdentifier!
+            let console = try! OSLogConsole(subsystems: [id])
+            
+            Task {
+                try await console.stream()
+            }
+                        
+            return console
+        }())
         
         Button("Log") {
-            _ = DebugToolsConsole.shared
-                .send(.warning,
-                      msg: "Ohh no!", thread: "main", file: #file, function: #function, line: #line)
+            let identifier = Bundle.main.bundleIdentifier!
+            let log = Logger(subsystem: identifier,
+              category: "AppModel")
+                        
+            log.error("Some log message")
         }
     }
 }

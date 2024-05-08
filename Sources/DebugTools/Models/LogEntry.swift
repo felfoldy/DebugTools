@@ -6,22 +6,24 @@
 //
 
 import Foundation
-import SwiftyBeaver
+import OSLog
 
-struct LogEntry: Identifiable {
-    let content: LogContent
-    
-    let id = UUID()
-    let date = Date()
-}
-
-enum LogContent {
-    case message(LogMessage)
-}
-
-struct LogMessage {
-    let level: SwiftyBeaver.Level
+struct LogModel {
+    let composedMessage: String
+    let level: OSLogEntryLog.Level
+    let date: Date
     let location: String
-    let message: String
-    let formatted: String
+}
+
+extension LogModel {
+    init(logEntry: OSLogEntryLog) {
+        composedMessage = logEntry.composedMessage
+        level = logEntry.level
+        date = logEntry.date
+        location = "\(logEntry.sender) \(logEntry.process)"
+    }
+}
+
+extension LogModel: Identifiable {
+    var id: String { "\(location)\(date.timeIntervalSince1970)" }
 }

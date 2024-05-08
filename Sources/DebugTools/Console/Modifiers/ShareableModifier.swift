@@ -9,7 +9,7 @@ import SwiftUI
 
 @available(iOS 16.0, *)
 struct ShareableModifier: ViewModifier {
-    let log: [LogEntry]
+    let log: [LogModel]
     
     func body(content: Content) -> some View {
         content.toolbar {
@@ -21,7 +21,7 @@ struct ShareableModifier: ViewModifier {
             
             ToolbarItem(placement: .secondaryAction) {
                 Button("Clear", systemImage: "trash") {
-                    DebugToolsConsole.shared.logs = []
+                    // TODO: Reimplement clear.
                 }
             }
         }
@@ -29,10 +29,7 @@ struct ShareableModifier: ViewModifier {
     
     private var logsToShare: String {
         log.map { entry in
-            switch entry.content {
-            case let .message(content):
-                content.formatted
-            }
+            entry.composedMessage
         }
         .joined(separator: "\n")
     }
@@ -40,7 +37,7 @@ struct ShareableModifier: ViewModifier {
 
 extension View {
     @ViewBuilder
-    func shareable(log: [LogEntry]) -> some View {
+    func shareable(log: [LogModel]) -> some View {
         if #available(iOS 16.0, *) {
             modifier(ShareableModifier(log: log))
         } else {
