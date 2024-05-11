@@ -11,7 +11,7 @@ import Combine
 import OSLog
 
 public final class DebugToolsConsoleDestination: ConsoleDestination, Console {
-    public let updateLogPublisher = PassthroughSubject<[LogEntry], Never>()
+    public var updateLogPublisher = CurrentValueSubject<[LogEntry], Never>([])
     
     private var logs = [LogEntry]()
     
