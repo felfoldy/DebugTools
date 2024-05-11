@@ -55,28 +55,3 @@ public struct ConsoleView: View {
         }
     }
 }
-
-import OSLog
-
-#Preview {
-    VStack {
-        ConsoleView(console: {
-            let id = Bundle.main.bundleIdentifier!
-            let console = try! OSLogConsole(subsystems: [id])
-            
-            Task {
-                try await console.stream()
-            }
-                        
-            return console
-        }())
-        
-        Button("Log") {
-            let identifier = Bundle.main.bundleIdentifier!
-            let log = Logger(subsystem: identifier,
-              category: "AppModel")
-                        
-            log.error("Some log message")
-        }
-    }
-}
