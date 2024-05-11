@@ -9,7 +9,7 @@ import SwiftUI
 
 @available(iOS 16.0, *)
 struct ShareableModifier: ViewModifier {
-    let log: [LogModel]
+    let log: [LogEntry]
     
     func body(content: Content) -> some View {
         content.toolbar {
@@ -37,7 +37,7 @@ struct ShareableModifier: ViewModifier {
 
 extension View {
     @ViewBuilder
-    func shareable(log: [LogModel]) -> some View {
+    func shareable(log: [LogEntry]) -> some View {
         if #available(iOS 16.0, *) {
             modifier(ShareableModifier(log: log))
         } else {

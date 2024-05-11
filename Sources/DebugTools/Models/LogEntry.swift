@@ -8,14 +8,14 @@
 import Foundation
 import OSLog
 
-struct LogModel {
+public struct LogEntry {
     let composedMessage: String
     let level: OSLogEntryLog.Level
     let date: Date
     let location: String
 }
 
-extension LogModel {
+extension LogEntry {
     init(logEntry: OSLogEntryLog) {
         composedMessage = logEntry.composedMessage
         level = logEntry.level
@@ -24,6 +24,6 @@ extension LogModel {
     }
 }
 
-extension LogModel: Identifiable, Equatable {
-    var id: String { "\(location)\(date.timeIntervalSince1970)" }
+extension LogEntry: Identifiable, Equatable {
+    public var id: String { "\(location)\(date.timeIntervalSince1970)" }
 }

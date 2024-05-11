@@ -9,9 +9,9 @@ import Foundation
 import OSLog
 import Algorithms
 
-public final class OSLogConsole: ObservableObject {
+public final class OSLogConsole: Console {
     var isStreaming = false
-    @Published private(set) var logs = [LogModel]()
+    @Published public private(set) var logs = [LogEntry]()
     
     private var store: OSLogStore
     private var subsystems: [String]
@@ -30,7 +30,7 @@ public final class OSLogConsole: ObservableObject {
                                               matching: predicate)
             .compactMap { $0 as? OSLogEntryLog }
             .suffix(1000)
-            .map(LogModel.init)
+            .map(LogEntry.init)
         
         let newResult = (logs + newEntries)
             .sorted { $0.date < $1.date }

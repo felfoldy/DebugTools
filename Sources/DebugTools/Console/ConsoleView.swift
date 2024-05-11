@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-public struct ConsoleView: View {
-    @ObservedObject private var console: OSLogConsole
+public struct ConsoleView<ConsoleModel: Console>: View {
+    @ObservedObject private var console: ConsoleModel
     @State private var filterText = ""
     @Environment(\.dismiss) private var dismiss
     
-    public init(console: OSLogConsole) {
+    public init(console: ConsoleModel) {
         self.console = console
     }
     
@@ -45,7 +45,7 @@ public struct ConsoleView: View {
         }
     }
 
-    private var filteredLogs: [LogModel] {
+    private var filteredLogs: [LogEntry] {
         if filterText.isEmpty {
             return console.logs
         }

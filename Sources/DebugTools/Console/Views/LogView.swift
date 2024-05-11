@@ -9,7 +9,7 @@ import SwiftUI
 import OSLog
 
 struct LogView: View {
-    let log: LogModel
+    let log: LogEntry
     
     var body: some View {
         HStack {
@@ -60,7 +60,7 @@ struct LogView: View {
     }
 }
 
-private extension LogModel {
+private extension LogEntry {
     init(message: String, level: OSLogEntryLog.Level) {
         composedMessage = message
         self.level = level
@@ -70,8 +70,8 @@ private extension LogModel {
 }
 
 #Preview {
-    func log(_ level: OSLogEntryLog.Level) -> LogModel {
-        LogModel(message: String(describing: level), level: level)
+    func log(_ level: OSLogEntryLog.Level) -> LogEntry {
+        LogEntry(message: String(describing: level), level: level)
     }
     
     return ScrollView {
