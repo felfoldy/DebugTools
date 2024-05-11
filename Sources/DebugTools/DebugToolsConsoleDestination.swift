@@ -15,6 +15,10 @@ public final class DebugToolsConsoleDestination: ConsoleDestination, Console {
     
     private var logs = [LogEntry]()
     
+    public override init() {
+        super.init()
+    }
+    
     public override func send(_ level: SwiftyBeaver.Level, msg: String, thread: String, file: String, function: String, line: Int, context: Any? = nil) -> String? {
         let formatted = super.send(level, msg: msg, thread: thread,
                                    file: file, function: function,
