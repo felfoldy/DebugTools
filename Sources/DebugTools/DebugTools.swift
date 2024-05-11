@@ -3,28 +3,9 @@ import Foundation
 public struct DebugTools {
     static var isConsolePresented = false
         
-    static var sharedConsole: OSLogConsole?
+    static var sharedConsole: (any Console)?
     
-    public static func startStreaming(subsystems: [String]? = nil) async throws {
-        let console = try OSLogConsole(subsystems: subsystems ?? defaultSubsystems)
+    public static func initialize(console: any Console) {
         sharedConsole = console
-
-        try await console.stream()
-    }
-    
-    private static var defaultSubsystems: [String] {
-        var subsystems = [
-            "Default",
-            // "com.apple.coredata",
-            "com.apple.ttsasset",
-            "com.apple.UIKit",
-            "com.apple.coreaudio",
-        ]
-        
-        if let identifier = Bundle.main.bundleIdentifier {
-            subsystems.append(identifier)
-        }
-        
-        return subsystems
     }
 }

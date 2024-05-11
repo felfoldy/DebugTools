@@ -6,7 +6,20 @@
 //
 
 import Foundation
+import Combine
 
-public protocol Console: ObservableObject {
-    var logs: [LogEntry] { get }
+public protocol Console {
+    var updateLogPublisher: PassthroughSubject<[LogEntry], Never> { get }
+}
+
+class ObservableConsole: ObservableObject {
+    @Published var logs: [LogEntry] = []
+
+    private var console: any Console
+
+    init(console: any Console) {
+        self.console = console
+        
+        console.updateLogPublisher.assign(to: &$logs)
+    }
 }

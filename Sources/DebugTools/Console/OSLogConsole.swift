@@ -7,18 +7,33 @@
 
 import Foundation
 import OSLog
-import Algorithms
+import Combine
 
 public final class OSLogConsole: Console {
     var isStreaming = false
-    @Published public private(set) var logs = [LogEntry]()
+    
+    public var updateLogPublisher = PassthroughSubject<[LogEntry], Never>()
     
     private var store: OSLogStore
     private var subsystems: [String]
     
-    init(subsystems: [String]) throws {
+    public init(subsystems: [String]) throws {
         store = try OSLogStore(scope: .currentProcessIdentifier)
         self.subsystems = subsystems
+    }
+
+    public func stream() async throws {
+        isStreaming = true
+        
+        var lastFetchDate = Date()
+        
+        while isStreaming {
+            if DebugTools.isConsolePresented {
+                try await fetchLogs(since: lastFetchDate)
+                lastFetchDate = Date()
+            }
+            try await Task.sleep(nanoseconds: 1_000_000)
+        }
     }
     
     func fetchLogs(since date: Date) async throws {
@@ -32,28 +47,8 @@ public final class OSLogConsole: Console {
             .suffix(1000)
             .map(LogEntry.init)
         
-        let newResult = (logs + newEntries)
-            .sorted { $0.date < $1.date }
-            .uniqued(on: \.date)
-        
         await MainActor.run {
-            if logs != newResult {
-                logs = newResult
-            }
-        }
-    }
-
-    func stream() async throws {
-        isStreaming = true
-        
-        var lastFetchDate = Date()
-        
-        while isStreaming {
-            if DebugTools.isConsolePresented {
-                try await fetchLogs(since: lastFetchDate)
-                lastFetchDate = Date()
-            }
-            try await Task.sleep(nanoseconds: 1_000_000)
+            updateLogPublisher.send(newEntries)
         }
     }
 }

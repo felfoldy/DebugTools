@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct AutoScrollView<ConsoleModel: Console, Content: View>: View {
-    let console: ConsoleModel
+struct AutoScrollView<Content: View>: View {
+    let console: ObservableConsole
     let content: () -> Content
         
     var body: some View {

@@ -7,13 +7,13 @@
 
 import SwiftUI
 
-public struct ConsoleView<ConsoleModel: Console>: View {
-    @ObservedObject private var console: ConsoleModel
+public struct ConsoleView: View {
+    @ObservedObject private var console: ObservableConsole
     @State private var filterText = ""
     @Environment(\.dismiss) private var dismiss
     
-    public init(console: ConsoleModel) {
-        self.console = console
+    public init(console: any Console) {
+        self.console = ObservableConsole(console: console)
     }
     
     public var body: some View {
