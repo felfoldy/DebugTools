@@ -5,6 +5,7 @@
 //  Created by Tibor Felföldy on 2024-05-11.
 //
 
+#if canImport(SwiftyBeaver)
 import Foundation
 import SwiftyBeaver
 import Combine
@@ -48,3 +49,4 @@ public final class DebugToolsConsoleDestination: ConsoleDestination, Console {
         return formatted
     }
 }
+#endif

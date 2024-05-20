@@ -12,13 +12,11 @@ let package = Package(
             targets: ["DebugTools"]
         ),
     ],
-    dependencies: [
-        .package(url: "https://github.com/SwiftyBeaver/SwiftyBeaver.git", .upToNextMajor(from: "2.0.0")),
-    ],
+    dependencies: [],
     targets: [
         .target(
             name: "DebugTools",
-            dependencies: ["SwiftyBeaver"]
+            dependencies: []
         ),
         .testTarget(
             name: "DebugToolsTests",
