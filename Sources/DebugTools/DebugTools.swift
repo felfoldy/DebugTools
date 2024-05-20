@@ -6,6 +6,5 @@ public struct DebugTools {
     
     public static func initialize(console: any Console) {
         sharedConsole = console
-        URLSession.attachLogger()
     }
 }
