@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 public protocol Console {
-    var updateLogPublisher: PassthroughSubject<[LogEntry], Never> { get }
+    var updateLogPublisher: CurrentValueSubject<[LogEntry], Never> { get }
 }
 
 class ObservableConsole: ObservableObject {
