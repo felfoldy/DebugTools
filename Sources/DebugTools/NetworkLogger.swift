@@ -8,6 +8,7 @@
 import Foundation
 
 struct TaskInfo {
+    let date = Date()
     var request: URLRequest
     var response: URLResponse?
     var data: Data?

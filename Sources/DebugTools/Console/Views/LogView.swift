@@ -12,39 +12,25 @@ struct LogView: View {
     let log: LogEntry
     
     var body: some View {
-        HStack {
-            if #available(iOS 16.0, *) {
-                Capsule()
-                    .fill(tint.gradient)
-                    .frame(width: 4)
+        VStack {
+            HStack {
+                Text(log.location)
+                
+                Spacer()
+                
+                Text(
+                    log.date.formatted(date: .omitted,
+                                       time: .standard)
+                )
             }
+            .font(.caption2)
+            .foregroundColor(.secondary)
             
-            VStack {
-                HStack {
-                    Text(log.location)
-                    
-                    Spacer()
-                    
-                    Text(
-                        log.date.formatted(date: .omitted,
-                                           time: .standard)
-                    )
-                }
-                .font(.caption2)
-                .foregroundColor(.secondary)
-
-                Text(log.composedMessage)
-                    .frame(maxWidth: .infinity,
-                           alignment: .leading)
-            }
+            Text(log.composedMessage)
+                .frame(maxWidth: .infinity,
+                       alignment: .leading)
         }
-        .padding(4)
-        .overlay(alignment: .bottom) {
-            Divider()
-        }
-        .background {
-            tint.opacity(0.1)
-        }
+        .logColor(tint)
     }
     
     private var tint: Color {
