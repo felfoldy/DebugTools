@@ -8,7 +8,7 @@
 import Foundation
 import OSLog
 
-public struct LogEntry {
+public struct LogEntry: PresentableLog {
     let composedMessage: String
     let level: OSLogEntryLog.Level
     let date: Date
@@ -24,6 +24,6 @@ extension LogEntry {
     }
 }
 
-extension LogEntry: Identifiable, Equatable {
+extension LogEntry: Equatable {
     public var id: String { "\(location)\(date.timeIntervalSince1970)" }
 }

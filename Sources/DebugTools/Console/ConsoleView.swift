@@ -8,20 +8,19 @@
 import SwiftUI
 
 public struct ConsoleView: View {
-    @ObservedObject private var console: ObservableConsole
+    @ObservedObject var store: LogStore
+
     @State private var filterText = ""
     @Environment(\.dismiss) private var dismiss
     
-    public init(console: any Console) {
-        self.console = ObservableConsole(console: console)
-    }
-    
     public var body: some View {
         NavigationView {
-            AutoScrollView(console: console) {
+            AutoScrollView(store: store) {
                 LazyVStack(spacing: 0) {
-                    ForEach(console.logs) { log in
-                        LogView(log: log)
+                    ForEach(store.logs, id: \.id) { log in
+                        if let entry = log as? LogEntry {
+                            LogView(log: entry)
+                        }
                     }
                 }
             }
@@ -35,23 +34,12 @@ public struct ConsoleView: View {
                     }
                 }
             }
-            .shareable(log: filteredLogs)
         }
         .onAppear {
             DebugTools.isConsolePresented = true
         }
         .onDisappear {
             DebugTools.isConsolePresented = false
-        }
-    }
-
-    private var filteredLogs: [LogEntry] {
-        if filterText.isEmpty {
-            return console.logs
-        }
-        
-        return console.logs.filter { log in
-            log.composedMessage.contains(filterText)
         }
     }
 }

@@ -3,9 +3,9 @@ import Foundation
 public struct DebugTools {
     static var isConsolePresented = false
         
-    static var sharedConsole: (any Console)?
+    static var sharedStore: LogStore?
     
-    public static func initialize(console: any Console) {
-        sharedConsole = console
+    public static func initialize(store: LogStore) {
+        sharedStore = store
     }
 }

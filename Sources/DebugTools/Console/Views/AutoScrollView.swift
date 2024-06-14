@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AutoScrollView<Content: View>: View {
-    let console: ObservableConsole
+    let store: LogStore
     let content: () -> Content
         
     var body: some View {
@@ -19,7 +19,7 @@ struct AutoScrollView<Content: View>: View {
                 Spacer(minLength: 8)
                     .id("bottom")
             }
-            .onReceive(console.objectWillChange) { _ in 
+            .onChange(of: store.filterredLogs.map(\.id)) { _ in
                 withAnimation {
                     proxy.scrollTo("bottom")
                 }
