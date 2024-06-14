@@ -7,4 +7,6 @@
 
 import Foundation
 
-public protocol PresentableLog: Identifiable {}
+public protocol PresentableLog: Identifiable, Equatable {
+    var id: String { get }
+}
