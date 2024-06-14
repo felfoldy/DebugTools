@@ -11,14 +11,8 @@ import SwiftyBeaver
 import Combine
 import OSLog
 
-public final class DebugToolsConsoleDestination: ConsoleDestination, Console {
-    public var updateLogPublisher = CurrentValueSubject<[LogEntry], Never>([])
-    
-    private var logs = [LogEntry]()
-    
-    public override init() {
-        super.init()
-    }
+public final class DebugToolsConsoleDestination: ConsoleDestination {
+    public let store = LogStore()
     
     public override func send(_ level: SwiftyBeaver.Level, msg: String, thread: String, file: String, function: String, line: Int, context: Any? = nil) -> String? {
         let formatted = super.send(level, msg: msg, thread: thread,
@@ -42,10 +36,8 @@ public final class DebugToolsConsoleDestination: ConsoleDestination, Console {
         
         let entry = LogEntry(composedMessage: msg, level: level, date: .now, location: location)
         
-        logs.append(entry)
-        
-        updateLogPublisher.send(logs)
-        
+        store.logs.append(entry)
+
         return formatted
     }
 }
