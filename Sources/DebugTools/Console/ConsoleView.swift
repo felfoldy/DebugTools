@@ -19,7 +19,7 @@ public struct ConsoleView: View {
                 LazyVStack(spacing: 0) {
                     ForEach(store.logs, id: \.id) { log in
                         if let entry = log as? LogEntry {
-                            LogView(log: entry)
+                            LogEntryView(log: entry)
                         }
                     }
                 }

@@ -1,5 +1,5 @@
 //
-//  LogView.swift
+//  LogEntryView.swift
 //  
 //
 //  Created by Tibor Felföldy on 2024-05-01.
@@ -8,7 +8,7 @@
 import SwiftUI
 import OSLog
 
-struct LogView: View {
+struct LogEntryView: View {
     let log: LogEntry
     
     var body: some View {
@@ -19,16 +19,14 @@ struct LogView: View {
                     .frame(width: 4)
             }
             
-            VStack {
+            VStack(alignment: .leading) {
                 HStack {
                     Text(log.location)
                     
                     Spacer()
                     
-                    Text(
-                        log.date.formatted(date: .omitted,
-                                           time: .standard)
-                    )
+                    Text(log.date.formatted(date: .omitted,
+                                            time: .standard))
                 }
                 .font(.caption2)
                 .foregroundColor(.secondary)
@@ -36,6 +34,15 @@ struct LogView: View {
                 Text(log.composedMessage)
                     .frame(maxWidth: .infinity,
                            alignment: .leading)
+                
+                if let subsystem = log.subsystem, let category = log.category {
+                    HStack {
+                        Label(subsystem, systemImage: "gearshape.2")
+                        Label(category, systemImage: "circle.grid.3x3")
+                    }
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                }
             }
         }
         .padding(4)
@@ -62,6 +69,8 @@ struct LogView: View {
 
 private extension LogEntry {
     init(message: String, level: OSLogEntryLog.Level) {
+        subsystem = "com.felfoldy.DebugTools"
+        category = "Default"
         composedMessage = message
         self.level = level
         date = .now
@@ -76,11 +85,11 @@ private extension LogEntry {
     
     return ScrollView {
         VStack(spacing: 0) {
-            LogView(log: log(.debug))
-            LogView(log: log(.info))
-            LogView(log: log(.notice))
-            LogView(log: log(.error))
-            LogView(log: log(.fault))
+            LogEntryView(log: log(.debug))
+            LogEntryView(log: log(.info))
+            LogEntryView(log: log(.notice))
+            LogEntryView(log: log(.error))
+            LogEntryView(log: log(.fault))
         }
     }
 }

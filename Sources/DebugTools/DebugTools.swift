@@ -8,4 +8,10 @@ public struct DebugTools {
     public static func initialize(store: LogStore) {
         sharedStore = store
     }
+    
+    #if canImport(LogTools)
+    public static func initialize() {
+        sharedStore = LogToolsStore.create()
+    }
+    #endif
 }

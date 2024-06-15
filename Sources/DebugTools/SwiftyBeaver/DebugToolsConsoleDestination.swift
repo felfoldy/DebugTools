@@ -34,7 +34,12 @@ public final class DebugToolsConsoleDestination: ConsoleDestination {
         
         let location = "\(path).\(function):\(line)"
         
-        let entry = LogEntry(composedMessage: msg, level: level, date: .now, location: location)
+        let entry = LogEntry(subsystem: nil,
+                             category: nil,
+                             composedMessage: msg,
+                             level: level,
+                             date: .now,
+                             location: location)
         
         store.logs.append(entry)
 
