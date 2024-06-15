@@ -9,19 +9,12 @@ import Foundation
 import OSLog
 
 public struct LogEntry: PresentableLog {
+    let subsystem: String?
+    let category: String?
     let composedMessage: String
     let level: OSLogEntryLog.Level
     let date: Date
     let location: String
-}
-
-extension LogEntry {
-    init(logEntry: OSLogEntryLog) {
-        composedMessage = logEntry.composedMessage
-        level = logEntry.level
-        date = logEntry.date
-        location = "\(logEntry.sender) \(logEntry.process)"
-    }
 }
 
 extension LogEntry: Equatable {

@@ -5,6 +5,7 @@
 //  Created by Tibor Felföldy on 2024-05-01.
 //
 
+#if canImport(UIKit)
 import UIKit
 import SwiftUI
 
@@ -36,3 +37,4 @@ extension UIViewController {
         return self
     }
 }
+#endif
