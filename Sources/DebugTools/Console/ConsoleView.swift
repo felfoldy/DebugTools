@@ -32,7 +32,9 @@ public struct ConsoleView<CustomView: View>: View {
                 }
             }
             .navigationTitle("Console")
+            #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
+            #endif
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Close", systemImage: "xmark.circle") {
