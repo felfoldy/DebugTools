@@ -19,7 +19,7 @@ public struct NoFilter: LogFilter {
     }
 }
 
-extension LogFilter where Self == NoFilter {
+public extension LogFilter where Self == NoFilter {
     static var `none`: NoFilter {
         NoFilter()
     }
