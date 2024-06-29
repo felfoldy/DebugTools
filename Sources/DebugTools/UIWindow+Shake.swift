@@ -17,7 +17,7 @@ extension UIWindow {
             return
         }
         
-        let vc = UIHostingController(rootView: ConsoleView(store: store))
+        let vc = UIHostingController(rootView: ConsoleNavigationView(store: store))
         rootViewController?.topMostViewController
             .present(vc, animated: true)
     }

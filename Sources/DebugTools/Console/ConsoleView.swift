@@ -10,7 +10,6 @@ import SwiftUI
 public struct ConsoleView<CustomView: View>: View {
     @ObservedObject private var store: LogStore
     private var customLogView: (any PresentableLog) -> CustomView
-    @Environment(\.dismiss) private var dismiss
     
     public init(store: LogStore,
                 @ViewBuilder customLogView: @escaping (any PresentableLog) -> CustomView = { _ in EmptyView() }) {
@@ -31,23 +30,6 @@ public struct ConsoleView<CustomView: View>: View {
                     }
                 }
             }
-            .navigationTitle("Console")
-            #if os(iOS)
-            .navigationBarTitleDisplayMode(.inline)
-            #endif
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Close", systemImage: "xmark.circle") {
-                        dismiss()
-                    }
-                }
-            }
-        }
-        .onAppear {
-            DebugTools.isConsolePresented = true
-        }
-        .onDisappear {
-            DebugTools.isConsolePresented = false
         }
     }
 }
