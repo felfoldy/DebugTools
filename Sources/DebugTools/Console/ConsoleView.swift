@@ -18,15 +18,13 @@ public struct ConsoleView<CustomView: View>: View {
     }
     
     public var body: some View {
-        NavigationView {
-            AutoScrollView(store: store) {
-                LazyVStack(spacing: 0) {
-                    ForEach(store.filterredLogs, id: \.id) { log in
-                        if let entry = log as? LogEntry {
-                            LogEntryView(log: entry)
-                        } else {
-                            customLogView(log)
-                        }
+        AutoScrollView(store: store) {
+            LazyVStack(spacing: 0) {
+                ForEach(store.filterredLogs, id: \.id) { log in
+                    if let entry = log as? LogEntry {
+                        LogEntryView(log: entry)
+                    } else {
+                        customLogView(log)
                     }
                 }
             }
