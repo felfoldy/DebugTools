@@ -11,7 +11,7 @@ import OSLog
 
 final class LogToolsStore: LogStore, LogDestination {
     static func create() -> LogToolsStore {
-        let destination = LogToolsStore()
+        let destination = LogToolsStore(logFilter: .none)
         Logger.destinations.append(destination)
         return destination
     }
@@ -36,11 +36,10 @@ final class LogToolsStore: LogStore, LogDestination {
         let location = "\(path).\(function):\(line)"
         
         let entry = LogEntry(subsystem: subsystem,
-                             category: category,
-                             composedMessage: message(),
-                             level: level,
-                             date: .now,
-                             location: location)
+                              category: category,
+                              message: message,
+                              level: level,
+                              location: location)
 
         DispatchQueue.main.async {
             self.logs.append(entry)
