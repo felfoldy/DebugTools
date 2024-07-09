@@ -37,7 +37,7 @@ final class LogToolsStore: LogStore, LogDestination {
         
         let entry = LogEntry(subsystem: subsystem,
                               category: category,
-                              message: message,
+                              message: message(),
                               level: level,
                               location: location)
 
