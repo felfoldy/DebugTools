@@ -12,13 +12,7 @@ struct LogEntryView: View {
     let log: LogEntry
     
     var body: some View {
-        HStack {
-            if #available(iOS 16.0, *) {
-                Capsule()
-                    .fill(tint.gradient)
-                    .frame(width: 4)
-            }
-            
+        LogContainerView(tint: tint) {
             VStack(alignment: .leading) {
                 HStack {
                     Text(log.location)
@@ -44,13 +38,6 @@ struct LogEntryView: View {
                     .foregroundStyle(.secondary)
                 }
             }
-        }
-        .padding(4)
-        .overlay(alignment: .bottom) {
-            Divider()
-        }
-        .background {
-            tint.opacity(0.1)
         }
     }
     
@@ -90,6 +77,7 @@ private extension LogEntry {
             LogEntryView(log: log(.notice))
             LogEntryView(log: log(.error))
             LogEntryView(log: log(.fault))
+            LogEntryView(log: log(.undefined))
         }
     }
 }

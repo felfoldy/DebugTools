@@ -8,12 +8,12 @@
 import Foundation
 import OSLog
 
-public struct LogEntry: PresentableLog {
+public struct LogEntry: PresentableLog, SortableLog {
     let subsystem: String?
     let category: String?
     let composedMessage: String
     let level: OSLogEntryLog.Level
-    let date: Date
+    public let date: Date
     let location: String
     
     public init(subsystem: String? = nil, category: String? = nil, message: String, level: OSLogEntryLog.Level, date: Date = Date(), location: String) {
