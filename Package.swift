@@ -12,11 +12,13 @@ let package = Package(
             targets: ["DebugTools"]
         ),
     ],
-    dependencies: [],
+    dependencies: [
+        .package(url: "https://github.com/felfoldy/LogTools.git", from: "0.9.0"),
+    ],
     targets: [
         .target(
             name: "DebugTools",
-            dependencies: []
+            dependencies: ["LogTools"]
         ),
         .testTarget(
             name: "DebugToolsTests",
