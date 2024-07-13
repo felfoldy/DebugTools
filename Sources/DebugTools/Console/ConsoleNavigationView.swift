@@ -27,11 +27,5 @@ struct ConsoleNavigationView: View {
                 }
                 #endif
         }
-        .onAppear {
-            DebugTools.isConsolePresented = true
-        }
-        .onDisappear {
-            DebugTools.isConsolePresented = false
-        }
     }
 }

@@ -1,8 +1,6 @@
 import Foundation
 
-public struct DebugTools {
-    static var isConsolePresented = false
-    
+public struct DebugTools {    
     public static var sharedStore: LogStore?
     
     #if canImport(UIKit)

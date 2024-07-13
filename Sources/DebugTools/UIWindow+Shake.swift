@@ -11,9 +11,12 @@ import SwiftUI
 
 extension UIWindow {
     open override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        if rootViewController?.topMostViewController is ConsoleViewController {
+            return
+        }
+        
         guard motion == .motionShake,
               let consoleProvider = DebugTools.shakePresentedConsole,
-              !DebugTools.isConsolePresented,
               let consoleView = consoleProvider() else {
             return
         }
