@@ -7,7 +7,7 @@ public struct DebugTools {
     
     #if canImport(UIKit)
     /// A console presented by a shake gesture on iOS.
-    public static var shakePresentedConsole: ConsoleProvider = defaultConsoleProvider
+    public static var shakePresentedConsole: ConsoleProvider? = defaultConsoleProvider
     #endif
     
     public static func initialize(store: LogStore) {
