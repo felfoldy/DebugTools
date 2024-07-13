@@ -10,13 +10,11 @@ public struct DebugTools {
     public static var shakePresentedConsole: ConsoleProvider? = defaultConsoleProvider
     #endif
     
-    public static func initialize(store: LogStore) {
+    public static func initialize(store: LogStore? = nil) {
+        #if canImport(LogTools)
+        sharedStore = store ?? LogToolsStore.create()
+        #else
         sharedStore = store
+        #endif
     }
-    
-    #if canImport(LogTools)
-    public static func initialize() {
-        sharedStore = LogToolsStore.create()
-    }
-    #endif
 }
