@@ -18,22 +18,20 @@ extension UIWindow {
     }
     
     open override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
-        if rootViewController?.topMostViewController is ConsoleViewController {
-            return
-        }
-        
         guard motion == .motionShake else { return }
 
         showConsole()
     }
     
     public func showConsole() {
-        guard let consoleView = DebugTools.shakePresentedConsole?() else {
+        guard let vc = rootViewController?.topMostViewController,
+              // Check if not already presented.
+              !(vc is ConsoleViewController),
+              let consoleView = DebugTools.shakePresentedConsole?() else {
             return
         }
         
-        rootViewController?.topMostViewController
-            .present(consoleView, animated: true)
+        vc.present(consoleView, animated: true)
     }
 }
 
