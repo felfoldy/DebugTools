@@ -10,23 +10,34 @@ import UIKit
 import SwiftUI
 
 extension UIWindow {
+    public static var keyWindow: UIWindow? {
+        UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap(\.windows)
+            .first(where: \.isKeyWindow)
+    }
+    
     open override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
         if rootViewController?.topMostViewController is ConsoleViewController {
             return
         }
         
-        guard motion == .motionShake,
-              let consoleProvider = DebugTools.shakePresentedConsole,
-              let consoleView = consoleProvider() else {
+        guard motion == .motionShake else { return }
+
+        showConsole()
+    }
+    
+    public func showConsole() {
+        guard let consoleView = DebugTools.shakePresentedConsole?() else {
             return
         }
-
+        
         rootViewController?.topMostViewController
             .present(consoleView, animated: true)
     }
 }
 
-extension UIViewController {
+public extension UIViewController {
     var topMostViewController: UIViewController {
         if let presented = self.presentedViewController {
             return presented.topMostViewController

@@ -1,5 +1,9 @@
 import Foundation
 
+#if canImport(UIKit)
+import UIKit
+#endif
+
 public struct DebugTools {    
     public static var sharedStore: LogStore?
     
@@ -9,10 +13,14 @@ public struct DebugTools {
     #endif
     
     public static func initialize(store: LogStore? = nil) {
-        #if canImport(LogTools)
         sharedStore = store ?? LogToolsStore.create()
+    }
+    
+    public static func showConsole() {
+        #if canImport(UIKit)
+        UIWindow.keyWindow?.showConsole()
         #else
-        sharedStore = store
+        // TODO: Solve it for app kit?
         #endif
     }
 }
