@@ -7,6 +7,7 @@
 
 import Foundation
 
+@MainActor
 open class LogStore: ObservableObject {
     @Published public var logs = [any PresentableLog]()
     @Published public var logFilter: any LogFilter = .none

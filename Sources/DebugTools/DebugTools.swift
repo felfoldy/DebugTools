@@ -12,6 +12,7 @@ public struct DebugTools {
     public static var shakePresentedConsole: ConsoleProvider? = defaultConsoleProvider
     #endif
     
+    @MainActor
     public static func initialize(store: LogStore? = nil) {
         sharedStore = store ?? LogToolsStore.create()
     }

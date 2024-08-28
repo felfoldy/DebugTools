@@ -5,7 +5,6 @@
 //  Created by Tibor Felföldy on 2024-06-15.
 //
 
-#if canImport(LogTools)
 import LogTools
 import OSLog
 
@@ -16,7 +15,7 @@ final class LogToolsStore: LogStore, LogDestination {
         return destination
     }
     
-    func log(subsystem: String?, category: String?, level: OSLogType, _ message: @escaping () -> String, file: String, function: String, line: Int) {
+    func log(subsystem: String?, category: String?, level: OSLogType, _ message: String, file: String, function: String, line: Int) {
         guard let url = URL(string: file) else {
             return
         }
@@ -37,13 +36,10 @@ final class LogToolsStore: LogStore, LogDestination {
         
         let entry = LogEntry(subsystem: subsystem,
                               category: category,
-                              message: message(),
+                              message: message,
                               level: level,
                               location: location)
 
-        DispatchQueue.main.async {
-            self.logs.append(entry)
-        }
+        logs.append(entry)
     }
 }
-#endif
