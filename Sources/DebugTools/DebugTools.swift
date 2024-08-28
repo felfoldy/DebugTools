@@ -4,15 +4,15 @@ import Foundation
 import UIKit
 #endif
 
-public struct DebugTools {    
+@MainActor
+public struct DebugTools {
     public static var sharedStore: LogStore?
     
     #if canImport(UIKit)
     /// A console presented by a shake gesture on iOS.
     public static var shakePresentedConsole: ConsoleProvider? = defaultConsoleProvider
     #endif
-    
-    @MainActor
+
     public static func initialize(store: LogStore? = nil) {
         sharedStore = store ?? LogToolsStore.create()
     }

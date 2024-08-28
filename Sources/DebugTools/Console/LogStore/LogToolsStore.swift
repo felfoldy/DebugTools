@@ -14,8 +14,8 @@ final class LogToolsStore: LogStore, LogDestination {
         Logger.destinations.append(destination)
         return destination
     }
-    
-    func log(subsystem: String?, category: String?, level: OSLogType, _ message: String, file: String, function: String, line: Int) {
+
+    nonisolated func log(subsystem: String?, category: String?, level: OSLogType, _ message: String, file: String, function: String, line: Int) {
         guard let url = URL(string: file) else {
             return
         }
@@ -40,6 +40,8 @@ final class LogToolsStore: LogStore, LogDestination {
                               level: level,
                               location: location)
 
-        logs.append(entry)
+        Task { @MainActor in
+            logs.append(entry)
+        }
     }
 }

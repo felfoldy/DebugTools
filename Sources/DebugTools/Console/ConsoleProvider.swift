@@ -11,6 +11,7 @@ import UIKit
 
 public typealias ConsoleProvider = () -> ConsoleViewController?
 
+@MainActor
 public let defaultConsoleProvider: ConsoleProvider = {
     guard let store = DebugTools.sharedStore else {
         return nil
