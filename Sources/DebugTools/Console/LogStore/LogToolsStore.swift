@@ -8,7 +8,7 @@
 import LogTools
 import OSLog
 
-final class LogToolsStore: LogStore, LogDestination {
+final class LogToolsStore: LogStore, StringLogDestination {
     static func create() -> LogToolsStore {
         let destination = LogToolsStore(logFilter: .none)
         Logger.destinations.append(destination)
