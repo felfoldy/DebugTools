@@ -18,7 +18,7 @@ public struct DebugTools {
     }
     
     public static func showConsole() {
-        #if canImport(UIKit)
+        #if canImport(UIKit) && !os(visionOS)
         UIWindow.keyWindow?.showConsole()
         #else
         // TODO: Solve it for app kit?
