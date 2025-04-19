@@ -8,7 +8,7 @@ import UIKit
 public struct DebugTools {
     public static var sharedStore: LogStore?
     
-    #if canImport(UIKit)
+    #if canImport(UIKit) && !os(visionOS)
     /// A console presented by a shake gesture on iOS.
     public static var shakePresentedConsole: ConsoleProvider? = defaultConsoleProvider
     #endif
